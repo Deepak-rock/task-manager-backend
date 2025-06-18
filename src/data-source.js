@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const Task = require("./entity/Task");
 
-const dbUrl = new URL(process.env.localhostDB_URL);
+const dbUrl = new URL(process.env.DB_URL);
 
 module.exports = new DataSource({
   type: "postgres",

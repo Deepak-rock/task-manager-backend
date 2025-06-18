@@ -12,5 +12,5 @@ dataSource.initialize().then(() => {
   const taskRepo = dataSource.getRepository("Task");
   app.use("/", routes(taskRepo));
 
-  app.listen(3000, () => console.log(`Server on http://localhost:${PORT}`));
+  app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
 });

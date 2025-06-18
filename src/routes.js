@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (taskRepo) => {
-  router.get("/", async (req, res) => {
+  router.get("/", async (_, res) => {
     res.send("Hello World!")
-    console.log("hello, world!")
   })
   // GET /tasks
   router.get("/tasks", async (_, res) => {
