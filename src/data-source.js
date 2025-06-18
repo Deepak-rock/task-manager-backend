@@ -3,13 +3,15 @@ require("dotenv").config();
 
 const Task = require("./entity/Task");
 
+const dbUrl = new URL(process.env.localhostDB_URL);
+
 module.exports = new DataSource({
   type: "postgres",
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: dbUrl.hostname,
+  port: parseInt(dbUrl.port),
+  username: dbUrl.username,
+  password: dbUrl.password,
+  database: dbUrl.pathname.slice(1),
   synchronize: true,
   logging: false,
   entities: [Task],
