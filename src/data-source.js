@@ -13,6 +13,11 @@ module.exports = new DataSource({
   password: dbUrl.password,
   database: dbUrl.pathname.slice(1),
   synchronize: true,
-  logging: false,
+  ssl: true,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false
+    }
+  },
   entities: [Task],
 });
