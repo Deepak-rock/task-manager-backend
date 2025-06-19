@@ -5,6 +5,7 @@ module.exports = (taskRepo) => {
   router.get("/", async (_, res) => {
     res.send("Hello World!")
   })
+
   // GET /tasks
   router.get("/tasks", async (_, res) => {
     try {
@@ -15,6 +16,19 @@ module.exports = (taskRepo) => {
       res.status(500).json({error: 'Failed to fetch task manager data'});
     }
   });
+
+  // GET /task/id
+  router.get("/task/:id", async (req, res) => {
+    try {
+      const task = await taskRepo.findOneBy({ id: req.params.id });
+      if (!task) return res.status(404).json({ error: 'Task not found' });
+  
+      res.json(task);
+    } catch (err) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 
   // POST /tasks
   router.post("/tasks", async (req, res) => {
