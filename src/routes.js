@@ -7,28 +7,51 @@ module.exports = (taskRepo) => {
   })
   // GET /tasks
   router.get("/tasks", async (_, res) => {
-    const tasks = await taskRepo.find();
-    res.json(tasks);
+    try {
+      const tasks = await taskRepo.find();
+      res.json(tasks);
+    }
+    catch (err) {
+      res.status(500).json({error: 'Failed to fetch task manager data'});
+    }
   });
 
   // POST /tasks
   router.post("/tasks", async (req, res) => {
-    const task = taskRepo.create(req.body);
-    const result = await taskRepo.save(task);
-    res.status(201).json(result);
+    try {
+      const task = taskRepo.create(req.body);
+      const result = await taskRepo.save(task);
+      res.status(201).json(result);
+    }
+    catch (err) {
+      console.error('Creation failed', err);
+      res.status(500).json({error: 'Failed to create a task'});
+    }
   });
 
   // PUT /tasks/:id
   router.put("/tasks/:id", async (req, res) => {
-    await taskRepo.update(req.params.id, req.body);
-    const updated = await taskRepo.findOneBy({ id: req.params.id });
-    res.json(updated);
+    try {
+      await taskRepo.update(req.params.id, req.body);
+      const updated = await taskRepo.findOneBy({id: req.params.id});
+      res.status(201).json(updated);
+    }
+    catch (err) {
+      console.error('Updation failed', err);
+      res.status(500).json({error: 'Failed to update a task'});
+    }
   });
 
   // DELETE /tasks/:id
   router.delete("/tasks/:id", async (req, res) => {
-    await taskRepo.delete(req.params.id);
-    res.status(204).end();
+    try {
+      await taskRepo.delete(req.params.id);
+      res.status(204).end();
+    }
+    catch (err) {
+      console.error('Deletion failed', err);
+      res.status(500).json({error: 'Failed to delete a task'});
+    }
   });
 
   return router;
